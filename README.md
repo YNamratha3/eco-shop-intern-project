@@ -51,7 +51,6 @@ The platform enables environmentally conscious purchasing decisions through carb
 - Order checkout workflow
 
 ---
-
 ## 🗄 Database Configuration
 
 Database: `eco_store`  
