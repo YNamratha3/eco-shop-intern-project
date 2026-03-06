@@ -43,6 +43,7 @@ export const authAPI = {
 // ── Products ──
 export const productAPI = {
     getAll: (params) => api.get('/products', { params }),
+    getBySeller: (sellerId) => api.get('/products', { params: { sellerId } }),
     getById: (id) => api.get(`/products/${id}`),
     getAlternatives: (id) => api.get(`/products/${id}/alternatives`),
     create: (data) => api.post('/products', data),

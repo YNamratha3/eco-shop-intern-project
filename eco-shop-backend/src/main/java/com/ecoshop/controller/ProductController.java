@@ -25,10 +25,13 @@ public class ProductController {
     public ResponseEntity<List<Product>> getAllProducts(
             @RequestParam(required = false) String search,
             @RequestParam(required = false) Boolean ecoFriendly,
-            @RequestParam(required = false) String category) {
+            @RequestParam(required = false) String category,
+            @RequestParam(required = false) Long sellerId) {
 
         List<Product> products;
-        if (search != null && !search.isBlank()) {
+        if (sellerId != null) {
+            products = productService.getSellerProducts(sellerId);
+        } else if (search != null && !search.isBlank()) {
             products = productService.searchProducts(search);
         } else if (Boolean.TRUE.equals(ecoFriendly)) {
             products = productService.getEcoFriendlyProducts();
@@ -62,13 +65,20 @@ public class ProductController {
     @PutMapping("/{id}")
     public ResponseEntity<Product> updateProduct(
             @PathVariable Long id,
-            @Valid @RequestBody ProductRequest request) {
-        return ResponseEntity.ok(productService.updateProduct(id, request));
+            @Valid @RequestBody ProductRequest request,
+            Authentication authentication) {
+        User user = userRepository.findByUsername(authentication.getName())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        return ResponseEntity.ok(productService.updateProduct(id, request, user.getId(), user.getRole().name()));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
-        productService.deleteProduct(id);
+    public ResponseEntity<Void> deleteProduct(
+            @PathVariable Long id,
+            Authentication authentication) {
+        User user = userRepository.findByUsername(authentication.getName())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        productService.deleteProduct(id, user.getId(), user.getRole().name());
         return ResponseEntity.noContent().build();
     }
 }
