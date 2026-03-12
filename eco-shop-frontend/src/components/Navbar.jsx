@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 import './Navbar.css';
 
 export default function Navbar({ cartCount }) {
@@ -9,7 +10,10 @@ export default function Navbar({ cartCount }) {
     const [menuOpen, setMenuOpen] = useState(false);
 
     const handleLogout = () => {
+        const confirmLogout = window.confirm("Are you sure you want to logout?");
+        if (!confirmLogout) return;
         logout();
+        toast.success("Logged out successfully");
         navigate('/');
     };
 
@@ -35,6 +39,8 @@ export default function Navbar({ cartCount }) {
                                 {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
                             </Link>
                             <Link to="/orders" className="nav-link" onClick={() => setMenuOpen(false)}>Orders</Link>
+                            <Link to="/dashboard" className="nav-link" onClick={() => setMenuOpen(false)}>Dashboard</Link>
+
                             {(user.role === 'ADMIN' || user.role === 'SELLER') && (
                                 <Link to="/admin/products" className="nav-link" onClick={() => setMenuOpen(false)}>Manage</Link>
                             )}

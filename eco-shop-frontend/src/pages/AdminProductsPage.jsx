@@ -23,7 +23,8 @@ export default function AdminProductsPage() {
 
     const fetchProducts = () => {
         setLoading(true);
-        productAPI.getAll()
+        const params = user?.role === 'SELLER' ? { sellerId: user.userId } : {};
+        productAPI.getAll(params)
             .then(res => setProducts(res.data))
             .catch(() => { })
             .finally(() => setLoading(false));

@@ -16,6 +16,7 @@ import CheckoutPage from './pages/CheckoutPage';
 import OrdersPage from './pages/OrdersPage';
 import ProfilePage from './pages/ProfilePage';
 import AdminProductsPage from './pages/AdminProductsPage';
+import Dashboard from './pages/Dashboard';
 
 export default function App() {
     const { user, loading } = useAuth();
@@ -56,6 +57,10 @@ export default function App() {
                 } />
                 <Route path="/profile" element={
                     <ProtectedRoute><ProfilePage /></ProtectedRoute>
+                } />
+
+                <Route path="/dashboard" element={
+                    <ProtectedRoute><Dashboard /></ProtectedRoute>
                 } />
 
                 {/* Admin/Seller Routes */}

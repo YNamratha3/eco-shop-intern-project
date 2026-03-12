@@ -1,0 +1,37 @@
+/* ═══════════════════════════════════════════
+   Dashboard – Layout & Sections
+   ═══════════════════════════════════════════ */
+
+/* ── Summary Cards Row ── */
+.dashboard-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-bottom: 32px;
+}
+
+/* ── Generic Section Spacing ── */
+.dashboard-section {
+    margin-bottom: 32px;
+}
+
+/* ── Two-Column Grid ── */
+.dashboard-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 48px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+    .dashboard-grid-2 {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 700px) {
+    .dashboard-cards {
+        grid-template-columns: 1fr;
+    }
+}

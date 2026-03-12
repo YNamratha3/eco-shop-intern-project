@@ -4,6 +4,7 @@ import com.ecoshop.dto.ProductRequest;
 import com.ecoshop.model.Product;
 import com.ecoshop.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -59,8 +60,11 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public Product updateProduct(Long id, ProductRequest request) {
+    public Product updateProduct(Long id, ProductRequest request, Long sellerId, String role) {
         Product product = getProductById(id);
+        if (!"ADMIN".equals(role) && !product.getSellerId().equals(sellerId)) {
+            throw new AccessDeniedException("You can only update your own products");
+        }
         product.setName(request.getName());
         product.setDescription(request.getDescription());
         product.setPrice(request.getPrice());
@@ -73,9 +77,10 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public void deleteProduct(Long id) {
-        if (!productRepository.existsById(id)) {
-            throw new RuntimeException("Product not found with id: " + id);
+    public void deleteProduct(Long id, Long sellerId, String role) {
+        Product product = getProductById(id);
+        if (!"ADMIN".equals(role) && !product.getSellerId().equals(sellerId)) {
+            throw new AccessDeniedException("You can only delete your own products");
         }
         productRepository.deleteById(id);
     }

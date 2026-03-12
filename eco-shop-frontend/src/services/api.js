@@ -43,6 +43,7 @@ export const authAPI = {
 // ── Products ──
 export const productAPI = {
     getAll: (params) => api.get('/products', { params }),
+    getBySeller: (sellerId) => api.get('/products', { params: { sellerId } }),
     getById: (id) => api.get(`/products/${id}`),
     getAlternatives: (id) => api.get(`/products/${id}/alternatives`),
     create: (data) => api.post('/products', data),
@@ -68,6 +69,13 @@ export const orderAPI = {
 export const userAPI = {
     getProfile: () => api.get('/users/profile'),
     updateProfile: (data) => api.put('/users/profile', data),
+};
+
+// ── Carbon Insights ──
+export const carbonAPI = {
+    getUserStats:    () => api.get('/carbon-insights/user-stats'),
+    getMonthlyTrend: () => api.get('/carbon-insights/monthly-trend'),
+    getTopProducts:  () => api.get('/carbon-insights/top-products'),
 };
 
 export default api;
